@@ -11,7 +11,13 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-       GameManager.instance.ButtonsScreen.GetComponent<Button>().onClick.AddListener(delegate { Debug.Log("do something");  CmdPlayVideo_1(); });
+        Button[] buttons = GameManager.instance.ButtonsScreen.GetComponentsInChildren<Button>();
+
+        buttons[0].onClick.AddListener(delegate { CmdPlayVideo_1(); });
+        buttons[1].onClick.AddListener(delegate { CmdPlayVideo_2(); });
+        buttons[2].onClick.AddListener(delegate { CmdPlayVideo_3(); });
+
+
     }
 
     private void Update()
@@ -50,7 +56,7 @@ public class Player : NetworkBehaviour
         }
     }
 
-   [Command]
+    [Command]
     public void CmdMove(int x, int y)
     {
         //moveX = x;
@@ -66,11 +72,16 @@ public class Player : NetworkBehaviour
         GameManager.instance.PlayVideo_1();
     }
 
-    public void FixedUpdate()
+    [Command]
+    public void CmdPlayVideo_2()
     {
-        if (NetworkServer.active)
-        {
-            transform.Translate(moveX * moveSpeed, moveY * moveSpeed, 0);
-        }
+        GameManager.instance.PlayVideo_2();
     }
+
+    [Command]
+    public void CmdPlayVideo_3()
+    {
+        GameManager.instance.PlayVideo_3();
+    }
+
 }
